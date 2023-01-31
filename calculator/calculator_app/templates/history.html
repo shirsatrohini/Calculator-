@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}<title>Calculator-History</title> {% endblock %}
+
+{% block content %}
+<center>
+    {% if messages %}
+            <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                <div class="row">
+                    <div class="col-md-6" style="margin: 0 auto;"> 
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div></li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    <div>
+    <table class="table table-bordered text-center" style="width:900px">
+            <thead class="table">
+            <tr>
+                <th scope="col">Serial No.</th>
+                <th scope="col">Query</th>
+                <th scope="col">Ans</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+                {% for i in history %} 
+                    <tr>
+                        <th scope="row">{{ forloop.counter  }}</th>
+                        <td>
+                        <form method="POST" action="{% url 'submitquery' %}">
+                        {% csrf_token %}
+                    
+                                {{i.query}}
+                            
+                        </form></td>         
+                        <td>{{i.ans}}</td>
+                        
+                        <td><button type="button" class="btn btn-danger" ><a href="{% url 'delete' pk=i.id %}">DELETE</button></a> </td>
+                        </td>
+                    </tr>
+                {% endfor %}
+                
+
+        <div>
+         
+        
+{% endblock %}
